@@ -1,38 +1,15 @@
-def calculadora():
-    while True:
-        num1 = input("Digite o primeiro número (ou 'sair' para finalizar): ")
-        if num1.lower() == "sair":
-            break
-        try:
-            num1 = float(num1)
-        except ValueError:
-            print("Entrada inválida. Por favor, digite um número válido.")
-            continue
+# Simple Calculator
 
-        operacao = input("Digite a operação (+, -, *, /): ")
+This is a simple calculator project implemented in Python. It supports basic operations such as addition, subtraction, multiplication, and division.
 
-        num2 = input("Digite o segundo número: ")
-        try:
-            num2 = float(num2)
-        except ValueError:
-            print("Entrada inválida. Por favor, digite um número válido.")
-            continue
+## Features
 
-        if operacao == "+":
-            resultado = num1 + num2
-        elif operacao == "-":
-            resultado = num1 - num2
-        elif operacao == "*":
-            resultado = num1 * num2
-        elif operacao == "/":
-            if num2 == 0:
-                print("Erro: Divisão por zero não é permitida.")
-                continue
-            resultado = num1 / num2
-        else:
-            print("Operação inválida.")
-            continue
+- Add, subtract, multiply, and divide two numbers.
+- Handles invalid input gracefully.
+- Prevents division by zero.
 
-        print("Resultado:", resultado)
+## Installation
 
-calculadora()
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/simple_calculator.git
