@@ -1,0 +1,36 @@
+# Leitura da temperatura em Celsius
+celsius = float(input("Digite a temperatura em Celsius: "))
+
+# Cálculo da temperatura em Fahrenheit
+fahrenheit = (celsius * 9/5) + 32
+
+# Exibição do valor em Fahrenheit
+print(f"A temperatura em Fahrenheit é: {fahrenheit:.2f}")
+
+# Leitura das três notas
+nota1 = float(input("Digite a primeira nota: "))
+nota2 = float(input("Digite a segunda nota: "))
+nota3 = float(input("Digite a terceira nota: "))
+
+# Cálculo da média
+media = (nota1 + nota2 + nota3) / 3
+
+# Exibição do resultado
+if media >= 7:
+    print(f"Média: {media:.2f} - Aprovado")
+else:
+    print(f"Média: {media:.2f} - Reprovado")
+
+# Leitura do valor da compra
+valor_compra = float(input("Digite o valor da compra: R$"))
+
+# Verificação e aplicação do desconto
+if valor_compra > 100:
+    valor_final = valor_compra * 0.85  # Aplica 15% de desconto
+else:
+    valor_final = valor_compra
+
+# Exibição do valor final
+print(f"Valor final a ser pago: R${valor_final:.2f}")
+
+
