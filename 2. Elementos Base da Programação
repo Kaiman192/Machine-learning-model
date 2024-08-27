@@ -1,0 +1,77 @@
+import math
+
+# Constante para o valor de pi
+PI = 3.14159
+
+# Leitura do raio
+raio = float(input("Digite o raio do círculo: "))
+
+# Cálculo da área
+area = PI * (raio ** 2)
+
+# Exibição da área
+print(f"A área do círculo é: {area:.2f}")
+
+# Taxa de câmbio
+taxa_cambio = 5.0  # 1 dólar = 5 reais
+
+# Leitura do valor em reais
+valor_reais = float(input("Digite o valor em reais: R$"))
+
+# Conversão para dólares
+valor_dolares = valor_reais / taxa_cambio
+
+# Exibição do valor convertido
+print(f"O valor em dólares: ${valor_dolares:.2f}")
+
+# Leitura dos números e operação
+numero1 = float(input("Digite o primeiro número: "))
+numero2 = float(input("Digite o segundo número: "))
+operacao = input("Digite a operação (+, -, *, /): ")
+
+# Realização da operação
+if operacao == "+":
+    resultado = numero1 + numero2
+elif operacao == "-":
+    resultado = numero1 - numero2
+elif operacao == "*":
+    resultado = numero1 * numero2
+elif operacao == "/":
+    if numero2 != 0:
+        resultado = numero1 / numero2
+    else:
+        resultado = "Erro: Divisão por zero"
+else:
+    resultado = "Operação inválida"
+
+# Exibição do resultado
+print(f"Resultado: {resultado}")
+
+# Leitura do salário bruto
+salario_bruto = float(input("Digite o salário bruto: R$"))
+
+# Cálculo do imposto e salário líquido
+imposto = salario_bruto * 0.10
+salario_liquido = salario_bruto - imposto
+
+# Exibição do salário líquido
+print(f"Salário líquido: R${salario_liquido:.2f}")
+
+# Leitura da idade
+idade = int(input("Digite a idade: "))
+
+# Adição de 5 anos
+nova_idade = idade + 5
+
+# Exibição da nova idade
+print(f"A nova idade será: {nova_idade}")
+
+# Leitura do nome do usuário
+nome = input("Digite seu nome: ")
+
+# Exibição da saudação personalizada
+print(f"Olá, {nome}! Bem-vindo(a) ao nosso programa.")
+
+
+
+
