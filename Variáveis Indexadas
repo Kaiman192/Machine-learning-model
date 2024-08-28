@@ -1,0 +1,21 @@
+notas = []
+for i in range(3):
+    nota = float(input(f"Digite a nota {i+1}: "))
+    notas.append(nota)
+
+media = sum(notas) / len(notas)
+
+print(f"A média das notas é: {media:.2f}")
+
+matriz = []
+
+for i in range(2):
+    linha = []
+    for j in range(3):
+        valor = float(input(f"Digite o valor para posição ({i+1},{j+1}): "))
+        linha.append(valor)
+    matriz.append(linha)
+
+print("Matriz digitada:")
+for linha in matriz:
+    print(linha)
