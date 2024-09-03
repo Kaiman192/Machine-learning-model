@@ -1,0 +1,72 @@
+CREATE DATABASE GestaoFuncionarios;
+USE GestaoFuncionarios;
+CREATE TABLE Departamentos (
+    id_departamento INT PRIMARY KEY AUTO_INCREMENT,
+    nome_departamento VARCHAR(100) NOT NULL
+);
+CREATE TABLE Funcionarios (
+    id_funcionario INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    cargo VARCHAR(50) NOT NULL,
+    salario DECIMAL(10, 2) NOT NULL,
+    id_departamento INT,
+    FOREIGN KEY (id_departamento) REFERENCES Departamentos(id_departamento) ON DELETE SET NULL
+);
+CREATE TABLE Salarios (
+    id_salario INT PRIMARY KEY AUTO_INCREMENT,
+    id_funcionario INT,
+    data DATE NOT NULL,
+    valor DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (id_funcionario) REFERENCES Funcionarios(id_funcionario) ON DELETE CASCADE
+);
+INSERT INTO Departamentos (nome_departamento) VALUES
+('Recursos Humanos'),
+('TI'),
+('Financeiro'),
+('Marketing'),
+('Vendas');
+INSERT INTO Funcionarios (nome, cargo, salario, id_departamento) VALUES
+('João Silva', 'Analista', 5000.00, 2),
+('Maria Oliveira', 'Desenvolvedora', 6000.00, 2),
+('Carlos Santos', 'Gerente', 8000.00, 1),
+('Ana Costa', 'Analista Financeiro', 5500.00, 3),
+('Paulo Souza', 'Vendedor', 4000.00, 5);
+INSERT INTO Salarios (id_funcionario, data, valor) VALUES
+(1, '2024-08-01', 5000.00),
+(2, '2024-08-01', 6000.00),
+(3, '2024-08-01', 8000.00),
+(4, '2024-08-01', 5500.00),
+(5, '2024-08-01', 4000.00);
+SELECT 
+    F.nome, F.cargo, D.nome_departamento 
+FROM 
+    Funcionarios F
+JOIN 
+    Departamentos D ON F.id_departamento = D.id_departamento;
+SELECT 
+    D.nome_departamento, SUM(F.salario) AS salario_total 
+FROM 
+    Funcionarios F
+JOIN 
+    Departamentos D ON F.id_departamento = D.id_departamento
+GROUP BY 
+    D.nome_departamento;
+SELECT 
+    S.data, S.valor 
+FROM 
+    Salarios S
+JOIN 
+    Funcionarios F ON S.id_funcionario = F.id_funcionario
+WHERE 
+    F.nome = 'João Silva';
+UPDATE Funcionarios 
+SET salario = 6500.00 
+WHERE nome = 'Maria Oliveira';
+UPDATE Departamentos 
+SET nome_departamento = 'Tecnologia da Informação' 
+WHERE nome_departamento = 'TI';
+DELETE FROM Funcionarios 
+WHERE nome = 'Paulo Souza';
+DELETE FROM Departamentos 
+WHERE id_departamento = 4 AND 
+      id_departamento NOT IN (SELECT id_departamento FROM Funcionarios);
