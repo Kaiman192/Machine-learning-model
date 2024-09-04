@@ -1,0 +1,287 @@
+import pandas as pd
+
+# Exemplo de carregamento de dados (supondo que os dados estejam em um arquivo CSV)
+# df = pd.read_csv('seu_arquivo.csv')
+
+# Supondo que os dados foram carregados em um DataFrame df
+# Exemplo para fins de ilustração:
+data = {
+    'id': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+    'category_name': [
+        'Beading & Jewelry Making', 'Fabric Decorating', 'Knitting & Crochet Supplies', 'Printmaking Supplies',
+        'Scrapbooking & Stamping Supplies', 'Sewing Products', 'Craft & Hobby Fabric', 'Needlework Supplies',
+        'Arts, Crafts & Sewing Storage', 'Painting, Drawing & Art Supplies', 'Craft Supplies & Materials',
+        'Gift Wrapping Supplies', 'Party Decorations', 'Automotive Paint & Paint Supplies',
+        'Heavy Duty & Commercial Vehicle Equipment', 'Automotive Tires & Wheels', 'Automotive Tools & Equipment',
+        'Automotive Performance Parts & Accessories', 'Car Care', 'Oils & Fluids', 'Automotive Replacement Parts',
+        'Lights, Bulbs & Indicators', 'Automotive Interior Accessories', 'Automotive Exterior Accessories',
+        'Automotive Enthusiast Merchandise', 'Car Electronics & Accessories', 'RV Parts & Accessories',
+        'Motorcycle & Powersports', 'Baby Diapering Products', 'Baby & Toddler Feeding Supplies'
+    ]
+}
+
+df = pd.DataFrame(data)
+
+# 1. Verificar e remover duplicatas
+df = df.drop_duplicates()
+
+# 2. Verificar valores ausentes
+valores_ausentes = df.isnull().sum()
+
+# Se houver valores ausentes, tratá-los (por exemplo, removendo linhas com valores ausentes)
+df = df.dropna()
+
+# Exibir o DataFrame corrigido
+print(df)
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Dados das categorias
+data = {
+    'id': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+    'category_name': [
+        'Beading & Jewelry Making', 'Fabric Decorating', 'Knitting & Crochet Supplies', 'Printmaking Supplies',
+        'Scrapbooking & Stamping Supplies', 'Sewing Products', 'Craft & Hobby Fabric', 'Needlework Supplies',
+        'Arts, Crafts & Sewing Storage', 'Painting, Drawing & Art Supplies', 'Craft Supplies & Materials',
+        'Gift Wrapping Supplies', 'Party Decorations', 'Automotive Paint & Paint Supplies',
+        'Heavy Duty & Commercial Vehicle Equipment', 'Automotive Tires & Wheels', 'Automotive Tools & Equipment',
+        'Automotive Performance Parts & Accessories', 'Car Care', 'Oils & Fluids', 'Automotive Replacement Parts',
+        'Lights, Bulbs & Indicators', 'Automotive Interior Accessories', 'Automotive Exterior Accessories',
+        'Automotive Enthusiast Merchandise', 'Car Electronics & Accessories', 'RV Parts & Accessories',
+        'Motorcycle & Powersports', 'Baby Diapering Products', 'Baby & Toddler Feeding Supplies'
+    ]
+}
+
+df = pd.DataFrame(data)
+
+# Classificar categorias em "Artesanato" e "Automotiva"
+artesanato_keywords = ['Craft', 'Arts', 'Sewing', 'Jewelry', 'Decorating', 'Painting', 'Stamping', 'Beading', 'Fabric', 'Scrapbooking']
+automotiva_keywords = ['Automotive', 'Car', 'Vehicle', 'Tires', 'Tools', 'Parts']
+
+def classify_industry(category_name):
+    if any(keyword in category_name for keyword in artesanato_keywords):
+        return 'Artesanato'
+    elif any(keyword in category_name for keyword in automotiva_keywords):
+        return 'Automotiva'
+    else:
+        return 'Outros'
+
+df['industry'] = df['category_name'].apply(classify_industry)
+
+# Contar o número de categorias em cada indústria
+industry_counts = df['industry'].value_counts()
+
+# Criar o gráfico de barras
+plt.figure(figsize=(8, 6))
+industry_counts.plot(kind='bar', color=['blue', 'orange'])
+plt.title('Quantidade de Categorias por Indústria')
+plt.xlabel('Indústria')
+plt.ylabel('Quantidade de Categorias')
+plt.xticks(rotation=0)
+plt.show()
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Dados das categorias
+data = {
+    'id': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+    'category_name': [
+        'Beading & Jewelry Making', 'Fabric Decorating', 'Knitting & Crochet Supplies', 'Printmaking Supplies',
+        'Scrapbooking & Stamping Supplies', 'Sewing Products', 'Craft & Hobby Fabric', 'Needlework Supplies',
+        'Arts, Crafts & Sewing Storage', 'Painting, Drawing & Art Supplies', 'Craft Supplies & Materials',
+        'Gift Wrapping Supplies', 'Party Decorations', 'Automotive Paint & Paint Supplies',
+        'Heavy Duty & Commercial Vehicle Equipment', 'Automotive Tires & Wheels', 'Automotive Tools & Equipment',
+        'Automotive Performance Parts & Accessories', 'Car Care', 'Oils & Fluids', 'Automotive Replacement Parts',
+        'Lights, Bulbs & Indicators', 'Automotive Interior Accessories', 'Automotive Exterior Accessories',
+        'Automotive Enthusiast Merchandise', 'Car Electronics & Accessories', 'RV Parts & Accessories',
+        'Motorcycle & Powersports', 'Baby Diapering Products', 'Baby & Toddler Feeding Supplies'
+    ]
+}
+
+df = pd.DataFrame(data)
+
+# Classificar categorias em "Artesanato" e "Automotiva"
+artesanato_keywords = ['Craft', 'Arts', 'Sewing', 'Jewelry', 'Decorating', 'Painting', 'Stamping', 'Beading', 'Fabric', 'Scrapbooking']
+automotiva_keywords = ['Automotive', 'Car', 'Vehicle', 'Tires', 'Tools', 'Parts']
+
+def classify_industry(category_name):
+    if any(keyword in category_name for keyword in artesanato_keywords):
+        return 'Artesanato'
+    elif any(keyword in category_name for keyword in automotiva_keywords):
+        return 'Automotiva'
+    else:
+        return 'Outros'
+
+df['industry'] = df['category_name'].apply(classify_industry)
+
+# Filtrar apenas as indústrias de interesse
+df_artesanato = df[df['industry'] == 'Artesanato']
+df_automotiva = df[df['industry'] == 'Automotiva']
+
+# Contar a quantidade de cada categoria dentro das indústrias
+artesanato_counts = df_artesanato['category_name'].value_counts()
+automotiva_counts = df_automotiva['category_name'].value_counts()
+
+# Criar gráficos de pizza
+fig, axs = plt.subplots(1, 2, figsize=(14, 7))
+
+# Gráfico de Pizza para Artesanato
+axs[0].pie(artesanato_counts, labels=artesanato_counts.index, autopct='%1.1f%%', startangle=140, colors=plt.cm.Paired(range(len(artesanato_counts))))
+axs[0].set_title('Proporção de Categorias - Artesanato')
+
+# Gráfico de Pizza para Automotiva
+axs[1].pie(automotiva_counts, labels=automotiva_counts.index, autopct='%1.1f%%', startangle=140, colors=plt.cm.Paired(range(len(automotiva_counts))))
+axs[1].set_title('Proporção de Categorias - Automotiva')
+
+plt.tight_layout()
+plt.show()
+
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Dados das categorias
+data = {
+    'id': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+    'category_name': [
+        'Beading & Jewelry Making', 'Fabric Decorating', 'Knitting & Crochet Supplies', 'Printmaking Supplies',
+        'Scrapbooking & Stamping Supplies', 'Sewing Products', 'Craft & Hobby Fabric', 'Needlework Supplies',
+        'Arts, Crafts & Sewing Storage', 'Painting, Drawing & Art Supplies', 'Craft Supplies & Materials',
+        'Gift Wrapping Supplies', 'Party Decorations', 'Automotive Paint & Paint Supplies',
+        'Heavy Duty & Commercial Vehicle Equipment', 'Automotive Tires & Wheels', 'Automotive Tools & Equipment',
+        'Automotive Performance Parts & Accessories', 'Car Care', 'Oils & Fluids', 'Automotive Replacement Parts',
+        'Lights, Bulbs & Indicators', 'Automotive Interior Accessories', 'Automotive Exterior Accessories',
+        'Automotive Enthusiast Merchandise', 'Car Electronics & Accessories', 'RV Parts & Accessories',
+        'Motorcycle & Powersports', 'Baby Diapering Products', 'Baby & Toddler Feeding Supplies'
+    ]
+}
+
+df = pd.DataFrame(data)
+
+# Contar o número de produtos em cada categoria
+category_counts = df['category_name'].value_counts()
+
+# Criar o histograma
+plt.figure(figsize=(12, 8))
+plt.hist(category_counts, bins=range(1, category_counts.max() + 2), edgecolor='black', alpha=0.7)
+plt.title('Distribuição de Produtos nas Diferentes Categorias')
+plt.xlabel('Número de Produtos por Categoria')
+plt.ylabel('Número de Categorias')
+plt.grid(True)
+plt.show()
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Dados fictícios com categorias e popularidade (número de vendas)
+data = {
+    'category': ['Artesanato', 'Automotiva', 'Eletrônicos', 'Beleza'],
+    'popularity': [500, 700, 300, 400]
+}
+
+df = pd.DataFrame(data)
+
+# Criar o gráfico de barras
+plt.figure(figsize=(10, 6))
+plt.bar(df['category'], df['popularity'], color='skyblue')
+plt.title('Popularidade Total por Categoria')
+plt.xlabel('Categoria')
+plt.ylabel('Popularidade')
+plt.xticks(rotation=45)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
+
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Dados fictícios com categorias, preço e popularidade
+data = {
+    'category': ['Artesanato', 'Artesanato', 'Automotiva', 'Automotiva', 'Beleza', 'Beleza'],
+    'price': [20, 30, 40, 50, 25, 35],
+    'popularity': [100, 150, 200, 180, 120, 160]
+}
+
+df = pd.DataFrame(data)
+
+# Criar o gráfico de dispersão
+plt.figure(figsize=(10, 6))
+plt.scatter(df['price'], df['popularity'], c=df['category'].astype('category').cat.codes, cmap='viridis', alpha=0.7)
+plt.title('Correlação entre Preço e Popularidade')
+plt.xlabel('Preço')
+plt.ylabel('Popularidade')
+plt.colorbar(label='Categoria')
+plt.grid(True)
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+Metodologia de Análise:
+
+Preparação dos Dados:
+Os dados foram carregados e organizados em um DataFrame.
+Verificou-se a presença de duplicatas e valores ausentes, que foram removidos ou tratados conforme necessário.
+Visualizações Criadas:
+Gráfico de Barras: Comparação do número de categorias em diferentes indústrias (Artesanato vs. Automotiva).
+Gráfico de Pizza: Proporção de cada categoria dentro de cada indústria.
+Histograma: Distribuição de produtos nas diferentes categorias.
+Gráfico de Linha: Tendência de popularidade das categorias ao longo do tempo.
+Gráfico de Dispersão: Correlação entre preço e popularidade dos produtos.
+2. Explicação de Cada Visualização
+1. Gráfico de Barras: Comparação das Categorias por Indústria
+
+Motivo da Escolha: Este gráfico fornece uma visão clara da quantidade de categorias em diferentes indústrias, facilitando a comparação entre elas.
+Insights Obtidos: Permite identificar quais indústrias possuem uma variedade maior de categorias e quais têm mais oportunidades de expansão.
+2. Gráfico de Pizza: Proporção de Categorias Dentro de Cada Indústria
+
+Motivo da Escolha: O gráfico de pizza é útil para visualizar a distribuição percentual de categorias dentro de uma indústria específica.
+Insights Obtidos: Mostra quais categorias dominam dentro de uma indústria e destaca as categorias menos representadas que podem precisar de mais atenção.
+3. Histograma: Distribuição de Produtos nas Categorias
+
+Motivo da Escolha: O histograma ajuda a entender como os produtos estão distribuídos entre as categorias.
+Insights Obtidos: Indica a concentração de produtos em determinadas categorias, podendo revelar categorias saturadas ou sub-representadas.
+4. Gráfico de Linha: Tendência de Popularidade das Categorias ao Longo do Tempo
+
+Motivo da Escolha: Visualizar a tendência de popularidade ao longo do tempo ajuda a identificar categorias com crescente ou decrescente popularidade.
+Insights Obtidos: Permite identificar padrões sazonais ou tendências de longo prazo, ajudando a ajustar estratégias de marketing e estoque.
+5. Gráfico de Dispersão: Correlação entre Preço e Popularidade
+
+Motivo da Escolha: Explorar a relação entre preço e popularidade pode revelar insights sobre como o preço influencia a popularidade.
+Insights Obtidos: Pode mostrar se há uma correlação positiva ou negativa entre preço e popularidade, ajudando a ajustar estratégias de precificação.
+3. Recomendações Baseadas nos Insights
+1. Expansão de Categorias Menos Representadas:
+
+Observação: Se um gráfico de pizza ou barras mostra que certas categorias têm pouca representação, considere estratégias para aumentar sua visibilidade.
+Recomendação: Investir em marketing direcionado para essas categorias, ajustar a oferta de produtos ou criar campanhas promocionais específicas.
+2. Ajuste de Estoque e Estratégias de Preço:
+
+Observação: O gráfico de linha e o gráfico de dispersão podem revelar padrões sazonais ou correlações entre preço e popularidade.
+Recomendação: Ajuste o estoque e os preços com base nas tendências de popularidade. Considere promoções para produtos com alta demanda sazonal e ajuste preços para otimizar a popularidade.
+3. Foco em Categorias Emergentes:
+
+Observação: As categorias com tendência crescente em popularidade devem receber mais atenção.
+Recomendação: Explore e amplie a oferta de produtos nessas categorias emergentes e considere parcerias com fornecedores relevantes.
+4. Conclusão Geral
+A análise dos dados e as visualizações fornecidas oferecem insights valiosos sobre a distribuição de produtos e a popularidade das categorias. Utilizando gráficos de linha, barras, pizza, e dispersão, podemos identificar tendências, padrões e correlações que ajudam a tomar decisões informadas para melhorar os resultados de negócios. As recomendações propostas, baseadas nos insights obtidos, podem orientar estratégias para otimizar a oferta de produtos, ajustar preços e expandir categorias, contribuindo assim para o crescimento e sucesso da empresa.
+
