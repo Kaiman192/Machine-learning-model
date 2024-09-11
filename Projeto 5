@@ -1,0 +1,81 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+import seaborn as sns
+
+# Gerar dados fictícios
+data = {
+    'text': [
+        'Não recebi o produto que comprei',
+        'O produto chegou danificado',
+        'O atendimento foi péssimo',
+        'A embalagem estava violada',
+        'O produto não corresponde à descrição',
+        'O serviço de entrega foi rápido',
+        'Recebi um produto errado',
+        'A qualidade do produto é excelente',
+        'O prazo de entrega foi cumprido',
+        'O suporte técnico foi muito útil'
+    ],
+    'category': [
+        'Produto', 'Produto', 'Serviço', 'Produto', 'Produto',
+        'Serviço', 'Produto', 'Produto', 'Serviço', 'Serviço'
+    ]
+}
+
+# Criar DataFrame
+df = pd.DataFrame(data)
+
+# Pré-processamento
+vectorizer = TfidfVectorizer(stop_words='english')
+X = vectorizer.fit_transform(df['text'])
+y = df['category']
+
+# Dividir dados em treino e teste
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Treinamento do modelo
+model = MultinomialNB()
+model.fit(X_train, y_train)
+
+# Predição
+y_pred = model.predict(X_test)
+
+# Avaliação
+accuracy = accuracy_score(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test, y_pred, labels=model.classes_)
+class_report = classification_report(y_test, y_pred, zero_division=0)  # Adiciona zero_division
+
+# Exibir resultados
+print("Acurácia do Modelo:")
+print(accuracy)
+print("\nMatriz de Confusão:")
+print(conf_matrix)
+print("\nRelatório de Classificação:")
+print(class_report)
+
+# Visualizar a matriz de confusão
+plt.figure(figsize=(8, 6))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=model.classes_, yticklabels=model.classes_)
+plt.xlabel('Predição')
+plt.ylabel('Real')
+plt.title('Matriz de Confusão')
+plt.show()
+
+# Palavras mais importantes para cada categoria
+def get_top_words_for_each_category(vectorizer, model, n=10):
+    feature_names = vectorizer.get_feature_names_out()
+    for index, category in enumerate(model.classes_):
+        top_indices = model.feature_log_prob_[index].argsort()[-n:][::-1]
+        top_words = [feature_names[i] for i in top_indices]
+        print(f"Palavras mais importantes para a categoria '{category}':")
+        print(top_words)
+        print()
+
+get_top_words_for_each_category(vectorizer, model)
+
+
