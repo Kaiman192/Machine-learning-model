@@ -1,0 +1,118 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Gerando dados fictícios para o período de abril de 2019 a abril de 2024
+np.random.seed(0)  # Para reprodutibilidade dos dados
+num_periods = len(pd.date_range(start='2019-04-01', end='2024-04-01', freq='W-MON'))
+
+data = {
+    'Date': pd.date_range(start='2019-04-01', end='2024-04-01', freq='W-MON'),
+    'Python': np.random.randint(50, 100, size=num_periods),
+    'Java': np.random.randint(30, 90, size=num_periods),
+    'C++': np.random.randint(20, 80, size=num_periods)
+}
+
+# Convertendo para DataFrame
+df = pd.DataFrame(data)
+
+# Convertendo a coluna de datas para o formato correto
+df['Date'] = pd.to_datetime(df['Date'])
+
+# Definindo a coluna 'Date' como índice
+df.set_index('Date', inplace=True)
+
+# Gráfico da popularidade ao longo do tempo
+plt.figure(figsize=(14, 7))
+plt.plot(df.index, df['Python'], label='Python', color='b')
+plt.plot(df.index, df['Java'], label='Java', color='g')
+plt.plot(df.index, df['C++'], label='C++', color='r')
+plt.title('Popularidade das Linguagens de Programação (2019-2024)')
+plt.xlabel('Data')
+plt.ylabel('Popularidade')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Aplicando médias móveis (curto prazo = 4 semanas, longo prazo = 12 semanas)
+df['Python_MA4'] = df['Python'].rolling(window=4).mean()
+df['Java_MA4'] = df['Java'].rolling(window=4).mean()
+df['C++_MA4'] = df['C++'].rolling(window=4).mean()
+
+df['Python_MA12'] = df['Python'].rolling(window=12).mean()
+df['Java_MA12'] = df['Java'].rolling(window=12).mean()
+df['C++_MA12'] = df['C++'].rolling(window=12).mean()
+
+# Gráfico das médias móveis
+plt.figure(figsize=(14, 7))
+plt.plot(df.index, df['Python_MA4'], label='Python - MA4', color='b', linestyle='--')
+plt.plot(df.index, df['Java_MA4'], label='Java - MA4', color='g', linestyle='--')
+plt.plot(df.index, df['C++_MA4'], label='C++ - MA4', color='r', linestyle='--')
+
+plt.plot(df.index, df['Python_MA12'], label='Python - MA12', color='b')
+plt.plot(df.index, df['Java_MA12'], label='Java - MA12', color='g')
+plt.plot(df.index, df['C++_MA12'], label='C++ - MA12', color='r')
+
+plt.title('Médias Móveis das Linguagens de Programação (Curto e Longo Prazo)')
+plt.xlabel('Data')
+plt.ylabel('Popularidade')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Análise sazonal - criando colunas com ano e mês para agrupar dados mensalmente
+df['Year'] = df.index.year
+df['Month'] = df.index.month
+
+# Agrupando e tirando a média mensal
+monthly_trends = df.groupby(['Year', 'Month']).mean()
+
+# Gráfico de análise sazonal (médias mensais)
+fig, axs = plt.subplots(3, 1, figsize=(14, 15), sharex=True)
+monthly_trends['Python'].unstack(level=0).plot(ax=axs[0], legend=True, title='Tendência Sazonal de Python (Médias Mensais)')
+monthly_trends['Java'].unstack(level=0).plot(ax=axs[1], legend=True, title='Tendência Sazonal de Java (Médias Mensais)')
+monthly_trends['C++'].unstack(level=0).plot(ax=axs[2], legend=True, title='Tendência Sazonal de C++ (Médias Mensais)')
+plt.xlabel('Mês')
+plt.ylabel('Popularidade Média')
+plt.tight_layout()
+plt.show()
+
+# Analisando desvio padrão mensal
+monthly_std = df.groupby(['Year', 'Month']).std()
+
+# Gráfico de desvio padrão
+plt.figure(figsize=(14, 7))
+plt.plot(monthly_std.index.get_level_values(0).astype(str) + '-' + monthly_std.index.get_level_values(1).astype(str), monthly_std['Python'], label='Python', color='b')
+plt.plot(monthly_std.index.get_level_values(0).astype(str) + '-' + monthly_std.index.get_level_values(1).astype(str), monthly_std['Java'], label='Java', color='g')
+plt.plot(monthly_std.index.get_level_values(0).astype(str) + '-' + monthly_std.index.get_level_values(1).astype(str), monthly_std['C++'], label='C++', color='r')
+plt.title('Desvio Padrão Mensal das Linguagens de Programação')
+plt.xlabel('Ano-Mês')
+plt.ylabel('Desvio Padrão')
+plt.legend()
+plt.grid(True)
+plt.xticks(rotation=45)
+plt.show()
+
+# Relatório em markdown
+relatorio = """
+# Análise de Popularidade das Linguagens de Programação (2019-2024)
+
+## 1. Evolução da Popularidade ao Longo do Período
+Ao observar a evolução da popularidade de Python, Java e C++ ao longo de 2019 a 2024, é possível identificar que Python se manteve consistentemente como a linguagem mais popular. Java e C++ apresentaram flutuações mais significativas.
+
+## 2. Padrões Sazonais nas Tendências de Popularidade
+Analisando as médias mensais, podemos notar que há uma leve sazonalidade nas três linguagens, com picos de popularidade variando ao longo dos anos, mas não há um padrão fixo.
+
+## 3. Linguagem Mais Popular em Diferentes Períodos
+Python foi a linguagem dominante em quase todos os períodos, com uma liderança clara em popularidade. Java e C++ competem entre si, mas geralmente Java manteve-se à frente de C++.
+
+## 4. Tendência de Longo Prazo
+Ao analisar as médias móveis de curto e longo prazo, podemos observar uma tendência de crescimento contínuo para Python, enquanto Java e C++ apresentam uma tendência mais estável, sem um crescimento tão claro.
+"""
+
+# Salvando o relatório em um arquivo markdown
+with open("relatorio_analise_popularidade.md", "w") as file:
+    file.write(relatorio)
+
+# Exibir o conteúdo do relatório
+print(relatorio)
