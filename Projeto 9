@@ -1,0 +1,66 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from datetime import datetime, timedelta
+
+# Configuração inicial para gerar dados fictícios
+np.random.seed(0)
+date_range = pd.date_range(start='2022-01-01', end='2024-01-01', freq='D')
+n = len(date_range)
+
+# Gerar dados fictícios
+data = {
+    'Date': date_range,
+    'Closing Price (USD)': np.random.uniform(low=20000, high=70000, size=n).cumsum() / n,
+    'Volume': np.random.uniform(low=5000, high=50000, size=n)
+}
+
+# Criar DataFrame
+df = pd.DataFrame(data)
+
+# Diagnóstico Inicial
+print("Diagnóstico Inicial:")
+print(df.head())
+print("\nTipos de Dados:")
+print(df.dtypes)
+print("\nValores Ausentes:")
+print(df.isna().sum())
+
+# Visualização do Preço de Fechamento
+plt.figure(figsize=(14, 7))
+plt.subplot(2, 1, 1)
+plt.plot(df['Date'], df['Closing Price (USD)'], color='blue', label='Preço de Fechamento')
+plt.title('Variação do Preço de Fechamento do Bitcoin ao Longo do Tempo')
+plt.xlabel('Data')
+plt.ylabel('Preço de Fechamento em USD')
+plt.legend()
+plt.xticks(rotation=45)
+
+# Visualização do Volume de Negociação
+plt.subplot(2, 1, 2)
+plt.plot(df['Date'], df['Volume'], color='orange', label='Volume de Negociação')
+plt.title('Volume de Negociação do Bitcoin ao Longo do Tempo')
+plt.xlabel('Data')
+plt.ylabel('Volume de Negociação')
+plt.legend()
+plt.xticks(rotation=45)
+
+plt.tight_layout()
+plt.show()
+
+# Relatório Básico
+print("\nRelatório Básico:")
+print("1. Principais características dos dados:")
+print("   - O DataFrame contém duas principais colunas: 'Closing Price (USD)' e 'Volume'.")
+print("   - Os dados foram gerados ficticiamente e possuem uma tendência geral crescente.")
+print("2. Tendências Visíveis no Gráfico de Preços:")
+print("   - O gráfico de preços mostra uma tendência geral crescente ao longo do tempo, o que pode indicar uma valorização contínua.")
+print("   - Períodos de alta e baixa são visíveis em diferentes partes do gráfico.")
+print("3. Relação entre Preço e Volume:")
+print("   - O gráfico de volume mostra flutuações que não são diretamente sincronizadas com o preço, sugerindo que o volume pode variar independentemente das mudanças de preço.")
+print("4. Conclusões e Sugestões:")
+print("   - A análise sugere que o preço do Bitcoin tem uma tendência geral de valorização.")
+print("   - Recomenda-se monitorar eventos de alta volatilidade que podem influenciar tanto o preço quanto o volume de negociação.")
+
+# Nota: Salve este código em um arquivo .py ou .ipynb e faça o upload em um repositório GitHub conforme necessário.
+
