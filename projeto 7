@@ -1,0 +1,129 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from wordcloud import WordCloud
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
+from textblob import TextBlob
+
+# Função para gerar dados sintéticos relacionados à ética em IA
+def generate_synthetic_ai_ethics_data(n=1000):
+    np.random.seed(42)
+    
+    # Gerar datas aleatórias entre 2010 e 2023
+    dates = pd.date_range(start='2010-01-01', end='2023-12-31', periods=n)
+    
+    # Gerar temas sintéticos de ética em IA
+    themes = np.random.choice(['Bias', 'Fairness', 'Privacy', 'Accountability', 'Transparency', 'Autonomy', 'Security', 'Governance'], size=n)
+    
+    # Gerar títulos de artigos sintéticos
+    titles = [f"AI Ethics and {theme}" for theme in themes]
+    
+    # Gerar descrições sintéticas (texto dos artigos)
+    descriptions = [
+        f"This article discusses the importance of {theme} in artificial intelligence, focusing on challenges and best practices."
+        for theme in themes
+    ]
+    
+    # Gerar sentimentos aleatórios (positivo, negativo, neutro)
+    sentiments = np.random.choice(['positive', 'negative', 'neutral'], size=n, p=[0.4, 0.3, 0.3])
+    
+    # Criar um DataFrame com os dados gerados
+    data = pd.DataFrame({
+        'date': dates,
+        'theme': themes,
+        'title': titles,
+        'description': descriptions,
+        'sentiment': sentiments
+    })
+    
+    return data
+
+# Geração de dados sintéticos
+data = generate_synthetic_ai_ethics_data()
+
+# Análise Exploratória de Dados (AED)
+print("Análise Exploratória de Dados (AED):")
+
+# 1. Visualizando a distribuição de temas
+plt.figure(figsize=(8, 6))
+sns.countplot(y='theme', data=data, order=data['theme'].value_counts().index, palette='Set2')
+plt.title('Distribuição dos Temas de Ética em IA')
+plt.xlabel('Número de Artigos')
+plt.ylabel('Tema')
+plt.show()
+
+# 2. Identificação de Tendências ao Longo do Tempo
+data['year'] = pd.to_datetime(data['date']).dt.year
+
+plt.figure(figsize=(10, 6))
+sns.countplot(x='year', data=data, palette='Set1')
+plt.title('Número de Artigos sobre Ética em IA ao Longo do Tempo')
+plt.xlabel('Ano')
+plt.ylabel('Número de Artigos')
+plt.xticks(rotation=45)
+plt.show()
+
+# 3. Principais Tópicos (Usando LDA para extração de tópicos)
+print("Extração de Tópicos:")
+vectorizer = CountVectorizer(stop_words='english', max_features=1000)
+X = vectorizer.fit_transform(data['description'])
+
+lda = LatentDirichletAllocation(n_components=5, random_state=42)
+lda.fit(X)
+
+# Exibindo os principais tópicos
+words = vectorizer.get_feature_names_out()
+topics = []
+for idx, topic in enumerate(lda.components_):
+    top_words = [words[i] for i in topic.argsort()[-10:]]
+    topics.append(", ".join(top_words))
+    print(f'Tópico {idx+1}: {", ".join(top_words)}')
+
+# Visualização da Nuvem de Palavras para os Tópicos
+all_words = ' '.join([desc for desc in data['description']])
+wordcloud = WordCloud(width=800, height=400, background_color='white').generate(all_words)
+
+plt.figure(figsize=(10, 6))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off')
+plt.title('Nuvem de Palavras dos Artigos de Ética em IA')
+plt.show()
+
+# 4. Análise de Sentimento
+print("Análise de Sentimento:")
+
+# Contagem de sentimentos
+plt.figure(figsize=(8, 6))
+sns.countplot(x='sentiment', data=data, palette='Set3')
+plt.title('Distribuição de Sentimentos nos Artigos de Ética em IA')
+plt.xlabel('Sentimento')
+plt.ylabel('Número de Artigos')
+plt.show()
+
+# Análise de sentimento baseada no texto
+def analyze_sentiment(text):
+    analysis = TextBlob(text)
+    if analysis.sentiment.polarity > 0:
+        return 'positive'
+    elif analysis.sentiment.polarity == 0:
+        return 'neutral'
+    else:
+        return 'negative'
+
+data['calculated_sentiment'] = data['description'].apply(analyze_sentiment)
+
+# Comparação entre sentimento fornecido e calculado
+plt.figure(figsize=(8, 6))
+sns.countplot(x='calculated_sentiment', data=data, palette='Set1')
+plt.title('Sentimento Calculado a Partir das Descrições dos Artigos')
+plt.xlabel('Sentimento Calculado')
+plt.ylabel('Número de Artigos')
+plt.show()
+
+# Resumo dos Resultados
+print("Resumo dos Resultados:")
+print(f"Número total de artigos: {len(data)}")
+print(f"Distribuição dos temas:\n{data['theme'].value_counts()}")
+print(f"Distribuição dos sentimentos:\n{data['sentiment'].value_counts()}")
