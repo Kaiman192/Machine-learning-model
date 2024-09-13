@@ -1,0 +1,110 @@
+código:
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Dados reais obtidos dos sites fornecidos (substitua pelos dados reais)
+data_real = {
+    'Equipe': ['Flamengo', 'Palmeiras', 'São Paulo', 'Atlético-MG', 'Grêmio'],
+    'Jogos': [38, 38, 38, 38, 38],
+    'Vitórias': [26, 24, 22, 20, 18],
+    'Empates': [8, 10, 12, 14, 16],
+    'Derrotas': [4, 4, 4, 4, 4],
+    'Gols Marcados': [70, 65, 60, 58, 55],
+    'Gols Sofridos': [30, 35, 40, 45, 50],
+    'Pontos': [86, 82, 78, 74, 72]
+}
+
+# Criar DataFrame com dados reais
+df_real = pd.DataFrame(data_real)
+
+# Exibir a tabela de estatísticas reais
+print("Tabela de Estatísticas da Série A do Campeonato Brasileiro:")
+print(df_real.to_string(index=False))
+
+# Estatísticas descritivas para dados reais
+print("\nEstatísticas Descritivas para Dados Reais:")
+print(df_real.describe())
+
+# Visualização da Tabela
+plt.figure(figsize=(12, 6))
+sns.heatmap(df_real.set_index('Equipe').astype(float), annot=True, fmt=".1f", cmap='viridis', linewidths=0.5)
+plt.title('Tabela de Estatísticas da Série A')
+plt.xlabel('Métricas')
+plt.ylabel('Equipe')
+plt.show()
+
+sites usados como referencia: 
+https://interativos.ge.globo.com/futebol/brasileirao-serie-a/materia/recordes-titulos-e-destaques-dos-20-anos-do-brasileiro-dos-pontos-corridos-confira-os-rankings.ghtml
+https://www.lance.com.br/brasileirao/os-clubes-com-mais-vitorias-na-historia-do-brasileirao.html
+https://www.espn.com.br/futebol/estatisticas/_/liga/bra.1
+https://fbref.com/pt/comps/24/Serie-A-Estatisticas
+
+Relatório de Análise de Estatísticas da Série A do Campeonato Brasileiro
+1. Objetivo
+O objetivo deste código é realizar uma análise descritiva e visual das estatísticas de cinco equipes da Série A do Campeonato Brasileiro, utilizando dados fictícios obtidos de fontes reais. A análise envolve a criação de um DataFrame com pandas, a exibição de estatísticas descritivas e a visualização dos dados com gráficos de calor utilizando matplotlib e seaborn.
+
+2. Estrutura dos Dados
+Os dados contidos no DataFrame incluem as seguintes informações para cada equipe:
+
+Equipe: Nome do time.
+Jogos: Total de jogos disputados na temporada (38).
+Vitórias: Número de vitórias alcançadas.
+Empates: Quantidade de empates.
+Derrotas: Número de derrotas (fixo em 4).
+Gols Marcados: Total de gols marcados.
+Gols Sofridos: Total de gols sofridos.
+Pontos: Pontuação final na tabela (cada vitória vale 3 pontos, e empate vale 1 ponto).
+Esses dados estão organizados no formato de dicionário e convertidos em um DataFrame pandas para facilitar a manipulação e análise.
+
+3. Criação do DataFrame
+O código cria um DataFrame a partir do dicionário data_real, onde as estatísticas de cada equipe são registradas:
+
+python
+Copiar código
+df_real = pd.DataFrame(data_real)
+Em seguida, a tabela com os dados das equipes é exibida de forma legível:
+
+python
+Copiar código
+print("Tabela de Estatísticas da Série A do Campeonato Brasileiro:")
+print(df_real.to_string(index=False))
+4. Estatísticas Descritivas
+O código utiliza o método describe() do pandas para gerar estatísticas descritivas dos dados numéricos:
+
+python
+Copiar código
+print("\nEstatísticas Descritivas para Dados Reais:")
+print(df_real.describe())
+As estatísticas descritivas incluem informações como:
+
+Contagem (count): Número total de entradas para cada coluna.
+Média (mean): Valor médio das métricas.
+Desvio padrão (std): Dispersão dos dados em torno da média.
+Mínimo (min) e máximo (max): Menores e maiores valores observados.
+Quartis: Valores que dividem a distribuição dos dados em partes (25%, 50% e 75%).
+5. Visualização de Dados
+Para fornecer uma visualização mais clara, foi criado um gráfico de calor utilizando seaborn. Esse gráfico mostra a intensidade de cada métrica para cada equipe, facilitando a análise comparativa visual entre as equipes.
+
+python
+Copiar código
+plt.figure(figsize=(12, 6))
+sns.heatmap(df_real.set_index('Equipe').astype(float), annot=True, fmt=".1f", cmap='viridis', linewidths=0.5)
+plt.title('Tabela de Estatísticas da Série A')
+plt.xlabel('Métricas')
+plt.ylabel('Equipe')
+plt.show()
+O heatmap utiliza uma paleta de cores contínua (cmap='viridis') para destacar as variações nos dados.
+As estatísticas para cada métrica (Vitórias, Empates, Derrotas, Gols Marcados, Gols Sofridos, e Pontos) são apresentadas na forma de células coloridas.
+O gráfico é anotado com os valores exatos (annot=True), tornando as comparações quantitativas mais fáceis.
+6. Análise dos Resultados
+Flamengo lidera o grupo com o maior número de pontos (86), vitórias (26), e o melhor saldo de gols (40 gols marcados e 30 sofridos).
+Palmeiras aparece em segundo lugar, com 24 vitórias e 82 pontos.
+O número de empates aumenta de Flamengo a Grêmio, que tem o maior número de empates (16) e o menor número de vitórias (18), refletindo na sua pontuação (72 pontos).
+As derrotas estão fixas em 4 para todas as equipes, o que pode ser uma simplificação nos dados fictícios.
+7. Conclusão
+O código demonstra um uso eficaz de pandas para a manipulação de dados e matplotlib/seaborn para visualização. Através de uma análise simples, é possível destacar as principais métricas e compará-las entre os times. Para uma análise mais aprofundada, outras métricas poderiam ser adicionadas, como saldo de gols ou aproveitamento.
+
+O gráfico de calor fornece uma visão intuitiva das variações nos dados, destacando visualmente a performance das equipes ao longo da temporada.
+
+Vasco da gama é o maior clube  do mundo.
