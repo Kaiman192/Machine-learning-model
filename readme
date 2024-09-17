@@ -1,0 +1,46 @@
+Análise de Categorias de Produtos
+Descrição
+Este projeto realiza uma análise detalhada de diferentes categorias de produtos, como Artesanato, Automotiva, Eletrônicos e Beleza. A análise inclui visualizações para explorar a popularidade, proporções e a correlação entre preço e popularidade dos produtos.
+
+Metodologia de Análise
+1. Preparação dos Dados
+Os dados foram carregados e organizados em um DataFrame usando a biblioteca pandas.
+Duplicatas e valores ausentes foram removidos.
+2. Visualizações Criadas
+Gráfico de Barras: Comparação da quantidade de categorias entre as indústrias.
+Gráfico de Pizza: Proporção de cada categoria dentro das indústrias de interesse.
+Histograma: Distribuição de produtos nas diferentes categorias.
+Gráfico de Linha: Tendência da popularidade das categorias.
+Gráfico de Dispersão: Correlação entre preço e popularidade.
+3. Insights e Recomendações
+Expansão de Categorias Menos Representadas: Considerar estratégias para aumentar a visibilidade de categorias sub-representadas.
+Ajuste de Estoque e Preços: Analisar padrões sazonais e correlação entre preço e popularidade para ajustar estratégias de estoque e marketing.
+Foco em Categorias Emergentes: Aumentar a oferta de produtos em categorias emergentes com crescente popularidade.
+Tecnologias Utilizadas
+Python: Para manipulação de dados e visualizações.
+pandas: Biblioteca para estruturação e análise de dados.
+matplotlib: Para gerar gráficos e visualizações.
+Como Executar
+Clone o repositório
+git clone https://github.com/seu-usuario/analise-categorias-produtos.git
+Instale as dependências:
+pip install -r requirements.txt
+Execute o script de análise:
+python analise_categorias.py
+Estrutura do Projeto
+.
+├── data
+│   └── dataset.csv
+├── src
+│   └── analise_categorias.py
+├── visualizations
+│   └── graficos.png
+├── README.md
+├── requirements.txt
+└── .gitignore
+Contribuição
+Sinta-se à vontade para abrir uma issue ou enviar pull requests. Todas as contribuições são bem-vindas!
+
+Licença
+Este projeto é licenciado sob a Licença MIT. Consulte o arquivo LICENSE para mais detalhes.
+
